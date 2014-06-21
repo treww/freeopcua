@@ -34,9 +34,12 @@ addonsincludedir = $(uaserverincludedir)/addons
 protocolincludedir = $(opcuaincludedir)/protocol
 binaryincludedir = $(protocolincludedir)/binary
 
-configdir = $(sysconfdir)/opcua
-srvconfigdir=$(configdir)/server
-srvconfig_DATA = src/server/configs/main.conf
+configdir = ${sysconfdir}/opcua
+serverconfigdir=${configdir}/server
+serverconfig_DATA = src/server/configs/server.conf
+
+clientconfigdir=${configdir}/client
+clientconfig_DATA = src/client/configs/opc_tcp.conf
 
 sysvdir=$(sysconfdir)/init.d
 sysv_DATA=src/server/configs/opcuaserver
@@ -120,7 +123,7 @@ opcuaserver_CPPFLAGS = -I$(top_srcdir)/include -I/usr/include/libxml2
 opcuaserver_LDFLAGS = -ldl -lpthread -lboost_filesystem -lboost_system -Wl,--no-undefined 
 
 
-test_addon.so: tests/server/test_addon.h tests/server/test_addon.cpp
+test_addon.so: tests/server/test_addon.h tests/server/test_addon.cpp libopcuacore.la
 	gcc -o0 -g -Wall -std=c++0x -fPIC -c tests/server/test_addon.cpp -I$(top_srcdir)/include -o test_addon.o
 	gcc -o0 -g -Wall -std=c++0x -shared test_addon.o -o test_addon.so $(top_builddir)/.libs/libopcuacore.so
 
@@ -387,6 +390,7 @@ EXTRA_DIST = \
   src/server/configs/opcuaserver \
   src/server/configs/main.conf \
   src/server/configs/opcuaserver.conf \
+  tests/client/configs \
   tests/core/configs \
   tests/gtest \
   tests/gmock \
