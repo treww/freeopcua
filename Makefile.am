@@ -106,7 +106,7 @@ libopcuaserver_la_SOURCES = \
 
 libopcuaserver_la_CPPFLAGS = -I$(top_srcdir)/include -I/usr/include/libxml2 $(GCOV_FLAGS)
 libopcuaserver_la_LIBADD = libopcuaprotocol.la libopcuacore.la
-libopcuaserver_la_LDFLAGS = -lpthread -ldl -lboost_thread -lboost_program_options -lboost_filesystem $(GCOV_LIBS) -lxml2 -Wl,--no-undefined
+libopcuaserver_la_LDFLAGS = -lpthread -ldl -lboost_thread -lboost_program_options -lboost_system -lboost_filesystem $(GCOV_LIBS) -lxml2 -Wl,--no-undefined
 
 
 ####################################################
