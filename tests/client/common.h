@@ -13,7 +13,6 @@
 
 #include <opc/common/uri_facade.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <stdlib.h>

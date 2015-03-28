@@ -47,8 +47,6 @@ AM_CONDITIONAL([ENABLE_PYTHON], [test "x$enable_python_bindings" == "xyes"])
 AC_SUBST([GTEST_LIB], [-Wl,--whole-archive,$srcdir/tests/gtest/lib/.libs/libgtest.a,--no-whole-archive])
 AC_SUBST([GTEST_MAIN_LIB], [-Wl,--whole-archive,$srcdir/tests/gtest/lib/.libs/libgtest_main.a,--no-whole-archive])
 AC_SUBST([GTEST_INCLUDES], [-I$srcdir/tests/gtest/include])
-AC_SUBST([GMOCK_LIBS], [-Wl,--whole-archive,$srcdir/tests/gmock/lib/.libs/libgmock.a,--no-whole-archive ])
-AC_SUBST([GMOCK_INCLUDES], [-I$srcdir/tests/gmock/include])
 
 AC_SUBST([RELEASE_DATE], [$(date -R)])
 
@@ -57,7 +55,6 @@ AC_CHECK_HEADERS([unistd.h])
 
 #################################################################
 AC_CONFIG_SUBDIRS([tests/gtest])
-AC_CONFIG_SUBDIRS([tests/gmock])
 
 AS_IF([test "x$enable_python_bindings" = "xyes"], [
 	ac_configure_args="$ac_configure_args --with-opcuaserver"

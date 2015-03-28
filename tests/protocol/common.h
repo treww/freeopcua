@@ -11,7 +11,6 @@
 #ifndef __OPC_UA_TESTS_COMMON_H__
 #define __OPC_UA_TESTS_COMMON_H__
 
-//#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <opc/ua/protocol/extension_identifiers.h>

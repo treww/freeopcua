@@ -10,7 +10,6 @@
 
 #include <opc/common/thread.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 using namespace testing;

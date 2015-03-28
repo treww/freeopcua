@@ -22,7 +22,6 @@
 #include "standard_namespace_test.h"
 #include "builtin_server_test.h"
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 #include <iostream>
 #include <thread>

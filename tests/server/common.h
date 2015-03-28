@@ -13,7 +13,6 @@
 
 #include <opc/common/addons_core/addon_manager.h>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 namespace OpcUa

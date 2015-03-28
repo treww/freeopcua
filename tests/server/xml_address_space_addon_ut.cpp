@@ -19,7 +19,6 @@
 
 #include <functional>
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 // TODO Add tests for several appearing nodes in xml.
 // TODO Add tests for all node classes and for invalid classe names.
