@@ -6,21 +6,22 @@
 # http://www.gnu.org/licenses/lgpl.html)
 #
 
+AC_PREREQ([2.59])
 AC_INIT([opcuaserver], [0.1.3], [rykovanov.as@gmail.com])
 AC_CONFIG_AUX_DIR([.])
+AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src/serverapp/server_main.cpp])
 AM_INIT_AUTOMAKE([-Wall -Werror])
-AC_PREREQ([2.59])
 
 CXXFLAGS="-O0 -g -std=c++11"
 
-AC_PROG_CXX
-AM_PROG_AR
-AM_PROG_LIBTOOL
-PKG_PROG_PKG_CONFIG
-
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADER([config.h])
+
+AM_PROG_LIBTOOL
+AC_PROG_CXX
+AM_PROG_AR
+PKG_PROG_PKG_CONFIG
 
 AC_ARG_ENABLE([gcov],
               [AS_HELP_STRING([--enable-gcov],[Enable support of coverage analize with gcov.])],
