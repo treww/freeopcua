@@ -27,7 +27,7 @@ AM_INIT_AUTOMAKE([1.9 dist-bzip2 dist-zip foreign subdir-objects])
 AC_PROG_CC
 AC_PROG_CXX
 AC_LANG([C++])
-AC_PROG_LIBTOOL
+AM_PROG_LIBTOOL
 
 # TODO(chandlerc@google.com): Currently we aren't running the Python tests
 # against the interpreter detected by AM_PATH_PYTHON, and so we condition
