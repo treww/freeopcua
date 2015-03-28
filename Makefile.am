@@ -62,7 +62,7 @@ pkgconfig_DATA = libopcuaprotocol.pc libopcuacore.pc libopcuaserver.pc libopcuac
 
 
 #custom shared libraries required for testing
-all-local : libtest_dynamic_addon.so tests/gtest/lib/.libs/libgtest.a
+#all-local : libtest_dynamic_addon.so tests/gtest/lib/.libs/libgtest.a
 
 
 DYNAMIC_ADDON_PATH = $(top_builddir)/libtest_dynamic_addon.so
@@ -514,16 +514,17 @@ clean-local:
 	rm -rvf opcuamappings*$(VERSION)* *.gcov *.gcno *.gcda
 	rm -rvf libopcuacore*$(VERSION)*
 	rm -rvf opcuaclient*$(VERSION)*
-	$(MAKE) -C $(top_srcdir)/tests/gtest clean
+
+#	$(MAKE) -C $(top_srcdir)/tests/gtest clean
 
 install-data-local:
 	install -d $(DESTDIR)/$(localstatedir)/log/opcua
 
-tests/gtest/lib/.libs/libgtest.a:
-	$(MAKE) -C $(top_srcdir)/tests/gtest
+#tests/gtest/lib/.libs/libgtest.a:
+#	$(MAKE) -C $(top_srcdir)/tests/gtest
  
-distclean-local:
-	$(MAKE) -C $(top_srcdir)/tests/gtest distclean
+#distclean-local:
+#	$(MAKE) -C $(top_srcdir)/tests/gtest distclean
  
 
 if ENABLE_PYTHON
