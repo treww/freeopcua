@@ -18,10 +18,10 @@ CXXFLAGS="-O0 -g -std=c++11"
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADER([config.h])
 
-AM_PROG_LIBTOOL
 AC_PROG_CXX
 AM_PROG_AR
 PKG_PROG_PKG_CONFIG
+#AM_PROG_LIBTOOL
 
 AC_ARG_ENABLE([gcov],
               [AS_HELP_STRING([--enable-gcov],[Enable support of coverage analize with gcov.])],
