@@ -12,6 +12,7 @@ AC_CONFIG_AUX_DIR([.])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([src/serverapp/server_main.cpp])
 AM_INIT_AUTOMAKE([-Wall -Werror])
+LT_INIT
 
 CXXFLAGS="-O0 -g -std=c++11"
 
