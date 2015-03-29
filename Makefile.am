@@ -8,9 +8,8 @@
 # $Date: $
 # $Revision: $
 
-if ENABLE_PYTHON
-SUBDIRS = . python
-endif
+SUBDIRS = . $(PYTHON_BINDINGS)
+
 
 #######################################################
 # list of binaries.
@@ -206,19 +205,19 @@ test_opcuaserver_LDFLAGS =  -ldl -lpthread $(GTEST_LIB) $(GTEST_MAIN_LIB) $(GMOC
 ####################################################
 
 
-include/opc/ua/protocol/object_ids.h: schemas/NodeIds.csv schemas/codegen.py
+$(top_srcdir)/include/opc/ua/protocol/object_ids.h: $(top_srcdir)/schemas/NodeIds.csv $(top_srcdir)/schemas/codegen.py
 	python $(top_srcdir)/schemas/codegen.py cxx object_ids > $@
 
-include/opc/ua/protocol/status_codes.h: schemas/StatusCode.csv schemas/codegen.py
+$(top_srcdir)/include/opc/ua/protocol/status_codes.h: $(top_srcdir)/schemas/StatusCode.csv $(top_srcdir)/schemas/codegen.py
 	python $(top_srcdir)/schemas/codegen.py cxx status_codes > $@
 
-src/protocol/string_utils_statuscode_tostring.cpp: schemas/StatusCode.csv schemas/codegen.py
+$(top_srcdir)/src/protocol/string_utils_statuscode_tostring.cpp: $(top_srcdir)/schemas/StatusCode.csv $(top_srcdir)/schemas/codegen.py
 	python $(top_srcdir)/schemas/codegen.py cxx status_codes_tostring > $@
 
-include/opc/ua/protocol/attribute_ids.h: schemas/AttributeIds.csv schemas/codegen.py
+$(top_srcdir)/include/opc/ua/protocol/attribute_ids.h: $(top_srcdir)/schemas/AttributeIds.csv $(top_srcdir)/schemas/codegen.py
 	python $(top_srcdir)/schemas/codegen.py cxx attribute_ids > $@
 
-src/client/opcua_options_attribute_ids.h: schemas/AttributeIds.csv schemas/codegen.py
+$(top_srcdir)/src/client/opcua_options_attribute_ids.h: $(top_srcdir)/schemas/AttributeIds.csv $(top_srcdir)/schemas/codegen.py
 	python $(top_srcdir)/schemas/codegen.py cxx attribute_ids_getoptionvalue > $@
 
 binaryinclude_HEADERS = \
