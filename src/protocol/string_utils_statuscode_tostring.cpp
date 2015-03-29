@@ -7,7 +7,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "opc/ua/protocol/status_codes.h"
+#include <opc/ua/protocol/status_codes.h>
 
 namespace OpcUa
 {

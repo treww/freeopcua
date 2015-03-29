@@ -86,7 +86,7 @@ def cxx_status_codes_tostring(fname):
 #include <sstream>
 #include <iomanip>
 
-#include "opc/ua/protocol/status_codes.h"
+#include <opc/ua/protocol/status_codes.h>
 
 namespace OpcUa
 {
@@ -178,7 +178,7 @@ def py_object_ids(fname):
 
 #include <boost/python.hpp>
 
-#include "opc/ua/protocol/object_ids.h"
+#include <opc/ua/protocol/object_ids.h>
 
 using namespace boost::python;
 using namespace OpcUa;
@@ -205,7 +205,7 @@ def py_status_codes(fname):
 
 #include <boost/python.hpp>
 
-#include "opc/ua/protocol/status_codes.h"
+#include <opc/ua/protocol/status_codes.h>
 
 using namespace boost::python;
 using namespace OpcUa;
@@ -235,7 +235,7 @@ def py_attribute_ids(fname):
 
 #include <boost/python.hpp>
 
-#include "opc/ua/protocol/attribute_ids.h"
+#include <opc/ua/protocol/attribute_ids.h>
 
 using namespace boost::python;
 using namespace OpcUa;
