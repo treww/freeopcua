@@ -20,7 +20,7 @@
 
 inline std::string GetHost()
 {
-  if (const char* uri = getenv("TEST_SERVER_URI"))
+  if (const char* uri = getenv("TEST_Server_URI"))
   {
     return OpcUa::Internal::Uri(uri).Host();
   }
@@ -29,7 +29,7 @@ inline std::string GetHost()
 
 inline int GetPort()
 {
-  if (const char* uri = getenv("TEST_SERVER_URI"))
+  if (const char* uri = getenv("TEST_Server_URI"))
   {
     return OpcUa::Internal::Uri(uri).Port();
   }
@@ -38,7 +38,7 @@ inline int GetPort()
 
 inline std::string GetEndpoint()
 {
-  if (char* endpoint = getenv("TEST_SERVER_URI"))
+  if (char* endpoint = getenv("TEST_Server_URI"))
   {
     return endpoint;
   }
