@@ -65,14 +65,16 @@ namespace OpcUa
   {
     pid_t pid, sid;
 
+    std::clog << "forking daemon process." << std::endl;
     pid = fork();
     if (pid < 0)
     {
-      std::cerr << "Failed to fork: " << strerror(errno) << std::endl;
+      perror("Failed to fork child process");
       exit(EXIT_FAILURE);
     }
     if (pid > 0)
     {
+      std::cout << "parent process exited." << std::endl;
       exit(EXIT_SUCCESS);
     }
 
