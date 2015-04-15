@@ -29,7 +29,6 @@ namespace OpcUa
 
     void Terminate();
 
-  private:
     void SetTerminateHandlers();
 
   private:

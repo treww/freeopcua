@@ -16,7 +16,6 @@ namespace OpcUa
 
   Daemon::Daemon()
   {
-    SetTerminateHandlers();
   }
 
   Daemon::~Daemon()

@@ -73,7 +73,7 @@ namespace OpcUa
     sid = setsid();
     if (sid < 0)
       exit(EXIT_FAILURE);
-    
+
     signal(SIGCHLD, SIG_IGN);
     signal(SIGHUP, SIG_IGN);
 
@@ -100,5 +100,7 @@ namespace OpcUa
       dup2(fileno(tmp), STDOUT_FILENO);
       dup2(fileno(tmp), STDERR_FILENO);
     }
+
+    SetTerminateHandlers();
   }
 }
