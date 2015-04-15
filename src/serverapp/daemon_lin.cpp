@@ -64,43 +64,34 @@ namespace OpcUa
   void Daemon::Daemonize(const std::string& logFile)
   {
     pid_t pid, sid;
-
-    std::clog << "forking daemon process." << std::endl;
     pid = fork();
     if (pid < 0)
-    {
-      perror("Failed to fork child process");
       exit(EXIT_FAILURE);
-    }
     if (pid > 0)
-    {
-      std::cout << "parent process exited." << std::endl;
       exit(EXIT_SUCCESS);
-    }
-
-    umask(0);
 
     sid = setsid();
     if (sid < 0)
-    {
-      std::cerr << "setsid() failed: " << strerror(errno) << std::endl;
       exit(EXIT_FAILURE);
-    }
+    
+    signal(SIGCHLD, SIG_IGN);
+    signal(SIGHUP, SIG_IGN);
 
-    if ((chdir("/")) < 0)
-    {
-      std::cerr << "Cannot change dir. " << strerror(errno) << std::endl;
+    pid = fork();
+    if (pid < 0)
       exit(EXIT_FAILURE);
-    }
+    if (pid > 0)
+      exit(EXIT_SUCCESS);
+
+    umask(0);
+    if ((chdir("/")) < 0)
+      exit(EXIT_FAILURE);
 
     if (!logFile.empty())
     {
       FILE* tmp = fopen(logFile.c_str(), "w");
       if (!tmp)
-      {
-        std::cerr << "Cannot open log file " << logFile << ". " << strerror(errno) << std::endl;
         exit(EXIT_FAILURE);
-      }
 
       close(STDIN_FILENO);
       close(STDOUT_FILENO);
