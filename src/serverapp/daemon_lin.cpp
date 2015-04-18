@@ -63,7 +63,16 @@ namespace OpcUa
 
   void Daemon::Daemonize(const std::string& logFile)
   {
+    std::cout << "Setting terminal handlers." << std::endl;
     pid_t pid, sid;
+    signal(SIGCHLD, SIG_IGN);
+    signal(SIGHUP, SIG_IGN);
+    SetTerminateHandlers();
+
+
+    std::cout << "Daemonize..." << std::endl;
+
+
     pid = fork();
     if (pid < 0)
       exit(EXIT_FAILURE);
@@ -74,14 +83,13 @@ namespace OpcUa
     if (sid < 0)
       exit(EXIT_FAILURE);
 
-    signal(SIGCHLD, SIG_IGN);
-    signal(SIGHUP, SIG_IGN);
-
     pid = fork();
     if (pid < 0)
       exit(EXIT_FAILURE);
     if (pid > 0)
       exit(EXIT_SUCCESS);
+
+    std::cout << "Demon!!!" << std::endl;
 
     umask(0);
     if ((chdir("/")) < 0)
@@ -89,18 +97,18 @@ namespace OpcUa
 
     if (!logFile.empty())
     {
-      FILE* tmp = fopen(logFile.c_str(), "w");
-      if (!tmp)
-        exit(EXIT_FAILURE);
-
       close(STDIN_FILENO);
       close(STDOUT_FILENO);
       close(STDERR_FILENO);
+
+      FILE* tmp = fopen(logFile.c_str(), "w");
+      if (!tmp)
+        return;
 
       dup2(fileno(tmp), STDOUT_FILENO);
       dup2(fileno(tmp), STDERR_FILENO);
     }
 
-    SetTerminateHandlers();
   }
 }
+
