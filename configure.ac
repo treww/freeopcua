@@ -46,12 +46,24 @@ AC_ARG_ENABLE([python-bindings],
                 enable_python_bindings=yes
               ])
 
+AC_ARG_ENABLE([unit-tests],
+              [AS_HELP_STRING([--disable-unit-tests],[Disable building of unit tests. Library gtest wont be built.])],
+              [
+                enable_unit_tests=no
+                AC_MSG_NOTICE([Disabled unit tests.])
+                AC_SUBST([GTEST_PATH], [])
+              ],
+              [
+                enable_unit_tests=yes
+                AC_SUBST([GTEST_PATH], [tests/gtest])
+                AC_SUBST([GTEST_LIB], [-Wl,--whole-archive,./tests/gtest/lib/.libs/libgtest.a,--no-whole-archive])
+                AC_SUBST([GTEST_MAIN_LIB], [-Wl,--whole-archive,./tests/gtest/lib/.libs/libgtest_main.a,--no-whole-archive])
+                AC_SUBST([GTEST_INCLUDES], [-I$srcdir/tests/gtest/include])
+              ])
 
+
+AM_CONDITIONAL([ENABLE_UNIT_TESTS], [test "x$enable_unit_tests" = xyes])
 AM_CONDITIONAL([ENABLE_PYTHON], [test "x$enable_python_bindings" = xyes])
-
-AC_SUBST([GTEST_LIB], [-Wl,--whole-archive,$srcdir/tests/gtest/lib/.libs/libgtest.a,--no-whole-archive])
-AC_SUBST([GTEST_MAIN_LIB], [-Wl,--whole-archive,$srcdir/tests/gtest/lib/.libs/libgtest_main.a,--no-whole-archive])
-AC_SUBST([GTEST_INCLUDES], [-I$srcdir/tests/gtest/include])
 
 AC_SUBST([RELEASE_DATE], [$(date -R)])
 
@@ -59,7 +71,8 @@ AC_SUBST([RELEASE_DATE], [$(date -R)])
 AC_CHECK_HEADERS([unistd.h])
 
 #################################################################
-#AC_CONFIG_SUBDIRS([tests/gtest])
+
+AC_CONFIG_SUBDIRS([tests/gtest])
 
 AS_IF([test "x$enable_python_bindings" = xyes], [
 	ac_configure_args="$ac_configure_args --with-opcuaserver"

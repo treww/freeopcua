@@ -8,7 +8,7 @@
 # $Date: $
 # $Revision: $
 
-SUBDIRS = . $(PYTHON_BINDINGS)
+SUBDIRS = $(GTEST_PATH) . $(PYTHON_BINDINGS)
 
 
 #######################################################
@@ -21,10 +21,12 @@ AUTOMAKE_OPTIONS = subdir-objects
 bin_PROGRAMS = opcuaserver opcua
 lib_LTLIBRARIES = libopcuaprotocol.la libopcuacore.la libopcuaserver.la libopcuaclient.la
 
+if ENABLE_UNIT_TESTS
 TESTS = test_opcuaserver test_opcuaprotocol common_gtest common_test  
 TESTS_ENVIRONMENT = LD_LIBRARY_PATH=$(abs_top_builddir)
-
 check_PROGRAMS = $(TESTS)
+endif
+
 
 #######################################################
 # Installation directories.
@@ -59,14 +61,14 @@ pkgshare_DATA = libopcuaprotocol.pc libopcuacore.pc libopcuaserver.pc libopcuacl
 pkgconfigdir = $(datarootdir)/pkgconfig
 pkgconfig_DATA = libopcuaprotocol.pc libopcuacore.pc libopcuaserver.pc libopcuaclient.pc
 
-
+if ENABLE_UNIT_TESTS
 #custom shared libraries required for testing
-#all-local : libtest_dynamic_addon.so tests/gtest/lib/.libs/libgtest.a
+all-local : libtest_dynamic_addon.so $(top_builddir)/tests/gtest/lib/.libs/libgtest.a
 
 
 DYNAMIC_ADDON_PATH = $(top_builddir)/libtest_dynamic_addon.so
 TEST_CORE_CONFIG_PATH = $(top_srcdir)/tests/core/configs/
-
+endif
 
 ####################################################
 # opcua server library
@@ -166,6 +168,7 @@ opcuaserver_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 -DCONFIG_
 opcuaserver_LDFLAGS = -ldl -lpthread -lboost_filesystem -lboost_program_options -lboost_system -Wl,--no-undefined 
 
 
+if ENABLE_UNIT_TESTS
 test_opcuaserver_SOURCES = \
 	tests/server/address_space_registry_test.h \
 	tests/server/address_space_ut.cpp \
@@ -199,6 +202,7 @@ test_opcuaserver_LDADD = libopcuaserver.la libopcuaprotocol.la libopcuacore.la l
 test_opcuaserver_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 -I$(top_srcdir)/src/server $(GTEST_INCLUDES) $(GMOCK_INCLUDES) \
                             -DDYNAMIC_ADDON_PATH="\"${DYNAMIC_ADDON_PATH}\"" -DTEST_CORE_CONFIG_PATH="\"${TEST_CORE_CONFIG_PATH}\""
 test_opcuaserver_LDFLAGS =  -ldl -lpthread $(GTEST_LIB) $(GTEST_MAIN_LIB) $(GMOCK_LIBS) $(GCOV_LIBS) -lboost_program_options
+endif # ENABLE_UNIT_TESTS
 
 ####################################################
 # Protocol library
@@ -289,6 +293,7 @@ libopcuaprotocol_la_SOURCES = \
 libopcuaprotocol_la_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 $(GCOV_FLAGS)
 libopcuaprotocol_la_LDFLAGS = $(GCOV_LIBS)
 
+if ENABLE_UNIT_TESTS
 test_opcuaprotocol_SOURCES =  \
  tests/protocol/binary_deserialize.cpp \
  tests/protocol/binary_serialize_variant.cpp \
@@ -312,6 +317,7 @@ test_opcuaprotocol_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 $(
 test_opcuaprotocol_LDADD = libopcuaprotocol.la
 test_opcuaprotocol_LDFLAGS = -ldl -lpthread -Wl,-z,defs $(GTEST_LIB) $(GTEST_MAIN_LIB) $(GCOV_LIBS) -lpthread 
 
+endif # ENABLE_UNIT_TESTS
 
 ###########################################################
 # OPCUA Common library
@@ -385,12 +391,13 @@ libopcuacore_la_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 $(GCO
 libopcuacore_la_LIBADD = libopcuaprotocol.la
 libopcuacore_la_LDFLAGS = -lpthread -ldl -lboost_thread -lboost_filesystem -lboost_system -lxml2 $(GCOV_LIBS) -Wl,--no-undefined
 
-test_dynamic_addon.o: tests/core/test_dynamic_addon.cpp
-	$(CC) -std=c++0x -I$(top_srcdir)/include -fPIC -g -c -Wall tests/core/test_dynamic_addon.cpp 
+if ENABLE_UNIT_TESTS
+test_dynamic_addon.o: $(top_srcdir)/tests/core/test_dynamic_addon.cpp
+	$(CC) -std=c++0x -I$(top_srcdir)/include -fPIC -g -c -Wall $(top_srcdir)/tests/core/test_dynamic_addon.cpp 
 
 
 libtest_dynamic_addon.so: test_dynamic_addon.o
-	$(CC) -std=c++0x -g -Wall -ldl -shared -o libtest_dynamic_addon.so test_dynamic_addon.o
+	$(CC) -std=c++0x -g -Wall -ldl -shared -o $(top_builddir)/libtest_dynamic_addon.so test_dynamic_addon.o
 
 
 common_test_SOURCES = \
@@ -416,6 +423,7 @@ common_gtest_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 $(GTEST_
 common_gtest_LDADD = libopcuacore.la libopcuaprotocol.la
 common_gtest_LDFLAGS = -ldl -lpthread -lxml2 $(GTEST_LIB) $(GTEST_MAIN_LIB) $(GMOCK_LIB) -no-undefined
 
+endif # ENABLE_UNIT_TESTS
 
 #########################################################
 # OPCUA client library
@@ -519,18 +527,18 @@ clean-local:
 	rm -rvf opcuamappings*$(VERSION)* *.gcov *.gcno *.gcda
 	rm -rvf libopcuacore*$(VERSION)*
 	rm -rvf opcuaclient*$(VERSION)*
-
-#	$(MAKE) -C $(top_srcdir)/tests/gtest clean
+if ENABLE_UNIT_TESTS
+	$(MAKE) -C $(top_builddir)/tests/gtest clean
 
 install-data-local:
 	install -d $(DESTDIR)/$(localstatedir)/log/opcua
 
-#tests/gtest/lib/.libs/libgtest.a:
-#	$(MAKE) -C $(top_srcdir)/tests/gtest
+tests/gtest/lib/.libs/libgtest.a:
+	$(MAKE) -C $(top_builddir)/tests/gtest
  
-#distclean-local:
-#	$(MAKE) -C $(top_srcdir)/tests/gtest distclean
- 
+distclean-local:
+	$(MAKE) -C $(top_builddir)/tests/gtest distclean
+endif # ENABLE_UNIT_TESTS
 
 if ENABLE_PYTHON
 python-dist:
