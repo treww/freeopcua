@@ -27,12 +27,11 @@ namespace
   namespace po = boost::program_options;
   using namespace OpcUa;
 
-  const char* DefaultLogFilePath = "/var/log/opcua/server.log";
-
   const char* OPTION_HELP = "help";
   const char* OPTION_CONFIG = "config-dir";
   const char* OPTION_DAEMON = "daemon";
-  const char* OPTION_LOGFILE = "log-file";
+  const char* OPTION_LOGFILE = "logfile";
+  const char* OPTION_PIDFILE = "pidfile";
 
   std::string GetConfigOptionValue(const po::variables_map& vm)
   {
@@ -49,13 +48,13 @@ namespace
     return vm.count(OPTION_DAEMON) != 0;
   }
 
-  std::string GetLogFile(const po::variables_map& vm)
+  std::string GetOption(const po::variables_map& vm, const char* opt, const char* deflt = "")
   {
-    if (vm.count(OPTION_LOGFILE))
+    if (vm.count(opt))
     {
-      return vm[OPTION_LOGFILE].as<std::string>();
+      return vm[opt].as<std::string>();
     }
-    return DefaultLogFilePath;
+    return deflt;
   }
 
 }
@@ -75,7 +74,8 @@ namespace OpcUa
       desc.add_options()
         (OPTION_HELP, "Print help message and exit.")
         (OPTION_CONFIG, po::value<std::string>(), (std::string("Path to directory with configuration files. Default: ") + CONFIG_PATH).c_str())
-        (OPTION_LOGFILE, po::value<std::string>(), "Set path to the log file. Default 'var/log/opcua/server.log")
+        (OPTION_LOGFILE, po::value<std::string>(), "Set path to the log file.")
+        (OPTION_PIDFILE, po::value<std::string>(), "Set path to the pid file.")
         (OPTION_DAEMON, "Start in daemon mode.")
         ;
 
@@ -92,7 +92,8 @@ namespace OpcUa
 
       IsDaemon = GetDaemonMode(vm);
       ConfigDir = GetConfigOptionValue(vm);
-      LogFile = ::GetLogFile(vm);
+      LogFile = ::GetOption(vm, OPTION_LOGFILE);
+      PidFile = ::GetOption(vm, OPTION_PIDFILE);
     }
 
   } // namespace UaServer

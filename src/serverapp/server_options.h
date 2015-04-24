@@ -49,11 +49,17 @@ namespace OpcUa
         return LogFile;
       }
 
+      std::string GetPidFile() const
+      {
+        return PidFile;
+      }
+
     private:
       bool StartPossible;
       bool IsDaemon;
       std::string ConfigDir;
       std::string LogFile;
+      std::string PidFile;
     };
 
   }

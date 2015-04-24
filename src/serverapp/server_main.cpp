@@ -43,14 +43,16 @@ int main(int argc, char** argv)
     }
 
     OpcUa::Daemon daemon;
+    if (!options.GetLogFile().empty())
+      daemon.CreateLogFile(options.GetLogFile().c_str());
+
     if (options.IsDaemonMode())
-    {
-      daemon.Daemonize(options.GetLogFile());
-    }
+      daemon.Daemonize();
     else
-    {
       daemon.SetTerminateHandlers();
-    }
+
+    if (!options.GetPidFile().empty())
+      daemon.CreatePidFile(options.GetPidFile().c_str());
 
     Common::AddonsManager::UniquePtr manager = Common::CreateAddonsManager();
     OpcUa::Server::LoadConfiguration(options.GetConfigDir(), *manager);

@@ -180,7 +180,7 @@ else
 endif
 
 # Build rules for libraries.
-lib_LTLIBRARIES = lib/libgtest.la lib/libgtest_main.la
+noinst_LTLIBRARIES = lib/libgtest.la lib/libgtest_main.la
 
 lib_libgtest_la_SOURCES = src/gtest-all.cc
 

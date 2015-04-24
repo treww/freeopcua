@@ -24,7 +24,17 @@ namespace OpcUa
     Daemon();
     ~Daemon();
 
-    void Daemonize(const std::string& str);
+
+    /// Set log file should be used to trace messages.
+    /// If this file is specified this tile will replace stdou and stderr
+    void CreateLogFile(const char* file);
+   
+
+    /// @param pidFile file with pid of current process.
+    /// if empty it will not be created.
+    void CreatePidFile(const char* file);
+
+    void Daemonize();
     void WaitForTerminate();
 
     void Terminate();
@@ -32,6 +42,8 @@ namespace OpcUa
     void SetTerminateHandlers();
 
   private:
+    int Pidfd = -1;
+    int Logfd = -1;
     std::mutex Mutex;
     std::condition_variable ExitEvent;
     volatile bool Terminating = false;
