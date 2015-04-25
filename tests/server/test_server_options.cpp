@@ -23,9 +23,10 @@ const char* TestConfigPath = TEST_CORE_CONFIG_PATH;
 
 TEST(ServerOptions, ParsesCommandLine)
 {
-  const char* argv[4] = { "test.exe", "--config=" TEST_CORE_CONFIG_PATH, "--log-file=/path/to/log/server.log", "--daemon" };
-  OpcUa::Server::CommandLine cmdline(4, argv);
+  const char* argv[5] = { "test.exe", "--config=" TEST_CORE_CONFIG_PATH, "--logfile=/path/to/log/server.log", "--pidfile=/path/to/file.pid", "--daemon" };
+  OpcUa::Server::CommandLine cmdline(5, argv);
   EXPECT_EQ(cmdline.GetLogFile(), "/path/to/log/server.log");
+  EXPECT_EQ(cmdline.GetPidFile(), "/path/to/file.pid");
   EXPECT_EQ(cmdline.GetConfigDir(), TestConfigPath);
   EXPECT_TRUE(cmdline.IsDaemonMode());
 }

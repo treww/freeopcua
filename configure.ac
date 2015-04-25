@@ -56,8 +56,7 @@ AC_ARG_ENABLE([unit-tests],
               [
                 enable_unit_tests=yes
                 AC_SUBST([GTEST_PATH], [tests/gtest])
-                AC_SUBST([GTEST_LIB], [-Wl,--whole-archive,./tests/gtest/lib/.libs/libgtest.a,--no-whole-archive])
-                AC_SUBST([GTEST_MAIN_LIB], [-Wl,--whole-archive,./tests/gtest/lib/.libs/libgtest_main.a,--no-whole-archive])
+                AC_SUBST([GTEST_LIB], [-Wl,--whole-archive,./tests/gtest/lib/.libs/libgtest_main.a,--no-whole-archive])
                 AC_SUBST([GTEST_INCLUDES], [-I$srcdir/tests/gtest/include])
               ])
 

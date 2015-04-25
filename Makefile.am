@@ -199,9 +199,9 @@ test_opcuaserver_SOURCES = \
 
 
 test_opcuaserver_LDADD = libopcuaserver.la libopcuaprotocol.la libopcuacore.la libopcuaclient.la
-test_opcuaserver_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 -I$(top_srcdir)/src/server $(GTEST_INCLUDES) $(GMOCK_INCLUDES) \
+test_opcuaserver_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 -I$(top_srcdir)/src/server $(GTEST_INCLUDES) \
                             -DDYNAMIC_ADDON_PATH="\"${DYNAMIC_ADDON_PATH}\"" -DTEST_CORE_CONFIG_PATH="\"${TEST_CORE_CONFIG_PATH}\""
-test_opcuaserver_LDFLAGS =  -ldl -lpthread $(GTEST_LIB) $(GTEST_MAIN_LIB) $(GMOCK_LIBS) $(GCOV_LIBS) -lboost_program_options
+test_opcuaserver_LDFLAGS =  -ldl -lpthread $(GTEST_LIB) $(GCOV_LIBS) -lboost_program_options
 endif # ENABLE_UNIT_TESTS
 
 ####################################################
@@ -313,9 +313,9 @@ test_opcuaprotocol_SOURCES =  \
  tests/protocol/test_input_from_buffer.cpp \
  tests/protocol/utils.cpp
 
-test_opcuaprotocol_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 $(GTEST_INCLUDES) $(GMOCK_INCLUDES) $(GCOV_FLAGS)
+test_opcuaprotocol_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 $(GTEST_INCLUDES) $(GCOV_FLAGS)
 test_opcuaprotocol_LDADD = libopcuaprotocol.la
-test_opcuaprotocol_LDFLAGS = -ldl -lpthread -Wl,-z,defs $(GTEST_LIB) $(GTEST_MAIN_LIB) $(GCOV_LIBS) -lpthread 
+test_opcuaprotocol_LDFLAGS = -ldl -lpthread -Wl,-z,defs $(GTEST_LIB) $(GCOV_LIBS) -lpthread 
 
 endif # ENABLE_UNIT_TESTS
 
@@ -405,7 +405,7 @@ common_test_SOURCES = \
                   tests/core/common/main.cpp
 
 
-common_test_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 $(GTEST_INCLUDES) $(GMOCK_INCLUDES)
+common_test_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 $(GTEST_INCLUDES)
 common_test_LDADD = libopcuacore.la libopcuaprotocol.la
 common_test_LDFLAGS = -ldl -lpthread -lcppunit
 
@@ -419,9 +419,9 @@ common_gtest_SOURCES = \
   tests/core/test_uri.cpp \
   tests/core/common/thread_test.cpp
 
-common_gtest_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 $(GTEST_INCLUDES) $(GMOCK_INCLUDES) -DDYNAMIC_ADDON_PATH="\"${DYNAMIC_ADDON_PATH}\"" -DTEST_CORE_CONFIG_PATH="\"${TEST_CORE_CONFIG_PATH}\""
+common_gtest_CPPFLAGS = -I$(top_srcdir)/include -I=/usr/include/libxml2 $(GTEST_INCLUDES) -DDYNAMIC_ADDON_PATH="\"${DYNAMIC_ADDON_PATH}\"" -DTEST_CORE_CONFIG_PATH="\"${TEST_CORE_CONFIG_PATH}\""
 common_gtest_LDADD = libopcuacore.la libopcuaprotocol.la
-common_gtest_LDFLAGS = -ldl -lpthread -lxml2 $(GTEST_LIB) $(GTEST_MAIN_LIB) $(GMOCK_LIB) -no-undefined
+common_gtest_LDFLAGS = -ldl -lpthread -lxml2 $(GTEST_LIB) -no-undefined
 
 endif # ENABLE_UNIT_TESTS
 
