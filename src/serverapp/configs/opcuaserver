@@ -17,7 +17,7 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="OPC UA server"
 NAME=opcuaserver
 DAEMON=/usr/bin/$NAME
-DAEMON_ARGS="--daemon --log-file=/var/log/opcuaserver.log"
+DAEMON_ARGS="--daemon --logfile=/var/log/opcuaserver.log --pidfile=/var/run/opcuaserver.pid"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
