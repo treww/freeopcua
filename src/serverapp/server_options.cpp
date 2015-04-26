@@ -19,7 +19,11 @@
 
 
 #ifndef CONFIG_PATH
+#ifdef WIN32
+#define CONFIG_PATH "."
+#else
 #define CONFIG_PATH "/etc/opcua/server"
+#endif
 #endif
 
 namespace

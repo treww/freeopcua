@@ -17,8 +17,13 @@
 #include <algorithm>
 #include <iostream>
 #include <stdexcept>
-#include <netinet/in.h>
 
+//TODO remove all system calls.
+#ifdef WIN32
+#include <Winsock2.h>
+#else
+#include <netinet/in.h>
+#endif
 
 namespace
 {
@@ -33,6 +38,7 @@ namespace
     union v val;
      
     val.f = value;
+    /// TODO Remove any system calls.
     val.i = htonl(val.i);
                    
     return val.f;

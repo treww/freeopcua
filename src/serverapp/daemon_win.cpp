@@ -50,11 +50,6 @@ namespace
 namespace OpcUa
 {
 
-  void Daemon::Daemonize(const std::string& logFile)
-  {
-    // TODO Implement windows srvice behavior.
-  }
-
   void Daemon::SetTerminateHandlers()
   {
     if(!SetConsoleCtrlHandler( (PHANDLER_ROUTINE) CtrlHandler, TRUE))
@@ -62,6 +57,18 @@ namespace OpcUa
       std::cerr << "Cannot set terminate handler. Application may not response on exit event." << std::endl;
     }
     DaemonInstance = this;
+  }
+
+  void Daemon::CreateLogFile(const char* file)
+  {
+  }
+
+  void Daemon::CreatePidFile(const char* file)
+  {
+  }
+
+  void Daemon::Daemonize()
+  {
   }
 
 }
